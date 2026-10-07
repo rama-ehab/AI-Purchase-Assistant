@@ -1,0 +1,14 @@
+streamlit
+requests
+beautifulsoup4
+fastapi
+uvicorn
+pydantic
+langchain
+langchain-community
+langchain-huggingface
+langchain-chroma
+sentence-transformers
+transformers
+torch
+pyngrok

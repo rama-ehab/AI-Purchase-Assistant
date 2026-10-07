@@ -70,6 +70,66 @@ def extract_requirements(user_text):
     return requirements
 
 
+def evaluate_products(products, requirements):
+
+    evaluated_products = []
+
+    budget = requirements.budget
+    min_ram = requirements.min_ram
+
+    for product in products:
+
+        price = product["price"]
+
+        if budget is not None:
+            budget_match = (
+                "Yes"
+                if price <= budget
+                else "No"
+            )
+        else:
+            budget_match = "Not specified"
+
+        ram_value = None
+
+        if product["ram"]:
+            ram_match_number = re.search(
+                r"\d+",
+                str(product["ram"])
+            )
+
+            if ram_match_number:
+                ram_value = int(
+                    ram_match_number.group()
+                )
+
+        if min_ram is not None and ram_value is not None:
+            ram_match = (
+                "Yes"
+                if ram_value >= min_ram
+                else "No"
+            )
+        else:
+            ram_match = "Not specified"
+
+        graphics = str(product["graphics"])
+
+        if "RTX 5060" in graphics:
+            gaming_suitability = "Yes"
+        else:
+            gaming_suitability = "Unknown"
+
+        result = ProductEvaluation(
+            product=product["name"],
+            budget_match=budget_match,
+            ram_match=ram_match,
+            gaming_suitability=gaming_suitability
+        )
+
+        evaluated_products.append(result)
+
+    return evaluated_products
+
 
 def choose_best_product(products, requirements):
 
